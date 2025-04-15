@@ -1,0 +1,23 @@
+# Go build files
+snip
+snipit
+snippit
+*.exe
+*.out
+*.test
+
+# Dependency directories (if any vendoring)
+vendor/
+
+# IDE/editor stuff
+.idea/
+.vscode/
+*.swp
+
+# System/editor temp files
+*.tmp
+*.bak
+*.DS_Store
+
+# Your local snippet storage
+snippets/snippets.json
