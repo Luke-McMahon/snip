@@ -19,5 +19,3 @@ vendor/
 *.bak
 *.DS_Store
 
-# Your local snippet storage
-snippets/snippets.json
