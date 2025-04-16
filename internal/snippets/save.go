@@ -7,16 +7,29 @@ import (
     "path/filepath"
 )
 
-const storagePath = "snippets/snippets.json"
+func getStoragePath() (string, error) {
+	home, err := os.UserHomeDir()
+	if err != nil {
+	  return "", err
+  }
+
+  return  filepath.Join(home, ".snippets", "snippets.json"), nil
+}
 
 func SaveSnippet(s Snippet) error {
+	path, err := getStoragePath()
+	if err != nil {
+	  return err
+	}
+
+
     var existing []Snippet
 
     // Ensure storage folder exists
-    _ = os.MkdirAll(filepath.Dir(storagePath), 0755)
+    _ = os.MkdirAll(filepath.Dir(path), 0755)
 
     // Read existing snippets if the file exists
-    if data, err := os.ReadFile(storagePath); err == nil {
+    if data, err := os.ReadFile(path); err == nil {
         _ = json.Unmarshal(data, &existing)
     }
 
@@ -32,5 +45,5 @@ func SaveSnippet(s Snippet) error {
 	fmt.Printf("snipped it: %s\n", s.Title)
 
     // Save to disk
-    return os.WriteFile(storagePath, updated, 0644)
+    return os.WriteFile(path, updated, 0644)
 }

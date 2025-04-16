@@ -6,7 +6,12 @@ import (
 )
 
 func LoadSnippets() ([]Snippet, error) {
-    data, err := os.ReadFile(storagePath)
+	path, err := getStoragePath()
+	if err != nil {
+	  return nil, err
+	}
+
+    data, err := os.ReadFile(path)
     if err != nil {
         return nil, err
     }
