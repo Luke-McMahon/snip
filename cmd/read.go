@@ -6,7 +6,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/luke-mcmahon/snipit/internal/snippets"
+	"github.com/luke-mcmahon/snip/internal/snippets"
 	"github.com/spf13/cobra"
 )
 

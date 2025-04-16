@@ -1,4 +1,4 @@
-module github.com/luke-mcmahon/snipit
+module github.com/luke-mcmahon/snip
 
 go 1.22.4
 

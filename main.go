@@ -1,10 +1,10 @@
 /*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
+Copyright © 2025 Luke McMahon <me@lmc.id.au>
 
 */
 package main
 
-import "github.com/luke-mcmahon/snipit/cmd"
+import "github.com/luke-mcmahon/snip/cmd"
 
 func main() {
 	cmd.Execute()

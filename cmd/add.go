@@ -12,7 +12,7 @@ import (
 
     "github.com/google/uuid"
     "github.com/spf13/cobra"
-    "github.com/luke-mcmahon/snipit/internal/snippets"
+    "github.com/luke-mcmahon/snip/internal/snippets"
 )
 
 var (
