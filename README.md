@@ -12,11 +12,16 @@ Store, tag, and retrieve code snippets straight from your terminal — with an o
 - Syntax-highlight snippets automatically (using Chroma)
 - List, search, and view saved snippets
 - Local JSON-based storage (no cloud or sync by default)
-- Designed to be easily extended with a TUI (via [Bubble Tea](https://github.com/charmbracelet/bubbletea))
 
 ---
 
 ## 📦 Installation
+
+```sh
+go install github.com/luke-mcmahon/snip@latest
+```
+
+### Development
 
 ```sh
 git clone https://github.com/luke-mcmahon/snip.git
@@ -28,6 +33,12 @@ go build -o snip
 ---
 
 ## 🛠️ Usage
+
+### TUI
+
+```sh
+snip tui
+```
 
 ### End to end
 
