@@ -1,8 +1,6 @@
 /*
 Copyright © 2025 Luke McMahon <me@lmc.id.au>
-
 */
-
 package cmd
 
 import (

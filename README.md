@@ -1,4 +1,4 @@
-# 🗃️ snipit
+# 🗃️ snip
 
 A fast, local-first CLI snippet manager written in Go.  
 Store, tag, and retrieve code snippets straight from your terminal — with an optional TUI interface coming soon.
@@ -19,8 +19,8 @@ Store, tag, and retrieve code snippets straight from your terminal — with an o
 ## 📦 Installation
 
 ```sh
-git clone https://github.com/luke-mcmahon/snipit.git
-cd snipit
+git clone https://github.com/luke-mcmahon/snip.git
+cd snip
 go build -o snip
 ./snip
 ```

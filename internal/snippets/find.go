@@ -1,3 +1,6 @@
+/*
+Copyright © 2025 Luke McMahon <me@lmc.id.au>
+*/
 package snippets
 
 import "os"
