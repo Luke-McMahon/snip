@@ -13,8 +13,8 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "snipit",
-	Short: "snipit is a CLI snippet manager",
+	Use:   "snip",
+	Short: "snip is a CLI snippet manager",
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

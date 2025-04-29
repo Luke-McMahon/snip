@@ -29,6 +29,58 @@ go build -o snip
 
 ## 🛠️ Usage
 
+### End to end
+
+```sh
+# Add a new snippet (title is positional)
+snip add "Reverse a string in Go" \
+  --tags go,string,utility \
+  --language go
+
+# You'll be prompted to enter the snippet content in your default editor (e.g. nano, vim)
+# Example content:
+# func Reverse(s string) string {
+#     runes := []rune(s)
+#     for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+#         runes[i], runes[j] = runes[j], runes[i]
+#     }
+#     return string(runes)
+# }
+
+# List all snippets
+snip list
+
+# Output:
+# - Reverse a string in Go [go, string, utility]
+#         ID: b5c0478e-379c-43ab-9f06-a01711fe54b0
+
+# Search snippets by tag
+snip search --tag go
+
+# Search snippets by keyword
+snip search reverse
+
+# View the full snippet
+snip view b5c0478e-379c-43ab-9f06-a01711fe54b0
+
+# Output:
+# ────────────────────────────
+# 📌 Reverse a string in Go [go, string, utility]
+# 🆔 b5c0478e-379c-43ab-9f06-a01711fe54b0
+# 🗣️  Language: go
+# 🕒 Created: 2025-04-29 21:09
+# 🕓 Updated: 2025-04-29 21:09
+# ────────────────────────────
+# func Reverse(s string) string {
+#     runes := []rune(s)
+#     for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+#         runes[i], runes[j] = runes[j], runes[i]
+#     }
+#     return string(runes)
+# }
+# ────────────────────────────
+```
+
 ### Add a snippet:
 
 ```sh
@@ -36,6 +88,15 @@ snip add "Curl JSON POST" --tags http,curl --language bash
 ```
 
 If `--content` is not provided, your `$EDITOR` will open for you to complete.
+
+#### Inline addition
+
+```sh
+snip add "Hello World in Python" \
+  --language python \
+  --tags hello,python \
+  --content 'print("Hello, world!")'
+```
 
 ---
 
