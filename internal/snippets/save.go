@@ -47,3 +47,17 @@ func SaveSnippet(s Snippet) error {
     // Save to disk
     return os.WriteFile(path, updated, 0644)
 }
+
+func SaveAllSnippets(snips []Snippet) error {
+    updated, err := json.MarshalIndent(snips, "", "  ")
+    if err != nil {
+        return err
+    }
+
+	path, err := getStoragePath()
+	if err != nil {
+	  return err
+	}
+
+    return os.WriteFile(path, updated, 0644)
+}
