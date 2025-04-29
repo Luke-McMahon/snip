@@ -5,11 +5,15 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
+	"github.com/alecthomas/chroma/quick"
 	"github.com/luke-mcmahon/snip/internal/snippets"
 	"github.com/spf13/cobra"
 )
+
+var disableSyntax bool
 
 var viewCmd = &cobra.Command{
     Use:   "view [id]",
@@ -50,10 +54,26 @@ func printSnippet(s snippets.Snippet) {
     fmt.Printf("🕒 Created: %s\n", s.CreatedAt.Format("2006-01-02 15:04"))
     fmt.Printf("🕓 Updated: %s\n", s.UpdatedAt.Format("2006-01-02 15:04"))
     fmt.Println("────────────────────────────")
-    fmt.Println(s.Content)
+	renderContent(s)
     fmt.Println("────────────────────────────")
+}
+
+func renderContent(s snippets.Snippet) {
+	if disableSyntax {
+		fmt.Println(s.Content)
+		return
+	}
+
+	err := quick.Highlight(os.Stdout, s.Content, s.Language, "terminal16m", "monokai")
+	if err != nil {
+		// Fallback if highlighting fails
+		fmt.Println(s.Content)
+	} else {
+		fmt.Println()
+	}
 }
 
 func init() {
     rootCmd.AddCommand(viewCmd)
+    viewCmd.Flags().BoolVar(&disableSyntax, "no-highlight", false, "Display without syntax highlighting")
 }
