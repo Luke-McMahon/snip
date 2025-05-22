@@ -46,7 +46,6 @@ var readCmd = &cobra.Command{
 		fmt.Println(snip.Content)
 
 		return nil
-		return nil
 	},
 }
 
