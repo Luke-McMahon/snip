@@ -12,6 +12,7 @@ Store, tag, and retrieve code snippets straight from your terminal — with an o
 - Syntax-highlight snippets automatically (using Chroma)
 - List, search, and view saved snippets
 - Local JSON-based storage (no cloud or sync by default)
+- Export snippets to GitHub Gists (requires GitHub token)
 - Designed to be easily extended with a TUI (via [Bubble Tea](https://github.com/charmbracelet/bubbletea))
 
 ---
@@ -165,12 +166,42 @@ Stored locally in `$HOME/.snippets/snippets.json`
 
 ---
 
+### Export to GitHub Gist
+
+Export any snippet to a GitHub Gist:
+
+```sh
+# First, set your GitHub token in your environment
+export GITHUB_TOKEN=your_github_personal_access_token
+
+# Export a snippet to GitHub Gist
+snip gist <snippet-id>
+```
+
+Make sure your GitHub token has the `gist` scope permission to create gists.
+
+### Import from GitHub Gists
+
+Import all your GitHub Gists as local snippets:
+
+```sh
+# First, set your GitHub token in your environment
+export GITHUB_TOKEN=your_github_personal_access_token
+
+# Import all your gists as snippets
+snip import-gists
+```
+
+Imported snippets will automatically be tagged with `github`, `gist`, and `imported`.
+
+---
+
 ## 🔭 Future Work
 
 - `delete [id]` — remove a snippet
 - `star` / `unstar` — mark favorite snippets
 - `export` / `import` — backup and restore, possibly with JSON/YAML
-- GitHub Gist sync or cloud export (optional, opt-in)
+- ✅ GitHub Gist sync or cloud export (optional, opt-in)
 - `snip stats` — see top tags/languages used
 - Templated snippet creation (`snip insert <template>`)
 - Interactive TUI mode with:
@@ -179,4 +210,3 @@ Stored locally in `$HOME/.snippets/snippets.json`
   - Batch operations (delete, export)
 - Auto language detection (fallback when `--language` is missing)
 - Plugin/hooks system for custom snippet actions
-
