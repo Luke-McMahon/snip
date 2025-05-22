@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/luke-mcmahon/snip/internal/gist"
+	"github.com/Luke-McMahon/snip/internal/gist"
 	"github.com/spf13/cobra"
 )
 

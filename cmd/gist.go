@@ -8,8 +8,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/luke-mcmahon/snip/internal/gist"
-	"github.com/luke-mcmahon/snip/internal/snippets"
+	"github.com/Luke-McMahon/snip/internal/gist"
+	"github.com/Luke-McMahon/snip/internal/snippets"
 	"github.com/spf13/cobra"
 )
 
