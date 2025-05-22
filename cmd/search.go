@@ -7,12 +7,12 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/luke-mcmahon/snip/internal/snippets"
+	"github.com/Luke-McMahon/snip/internal/snippets"
 	"github.com/spf13/cobra"
 )
 
 var (
-	tagFilter string
+	tagFilter      string
 	languageFilter string
 )
 
@@ -66,6 +66,6 @@ func containsIgnoreCase(slice []string, match string) bool {
 
 func init() {
 	rootCmd.AddCommand(searchCmd)
-    searchCmd.Flags().StringVar(&tagFilter, "tag", "", "Filter by tag")
-    searchCmd.Flags().StringVar(&languageFilter, "lang", "", "Filter by language")
+	searchCmd.Flags().StringVar(&tagFilter, "tag", "", "Filter by tag")
+	searchCmd.Flags().StringVar(&languageFilter, "lang", "", "Filter by language")
 }

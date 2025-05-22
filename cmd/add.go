@@ -4,28 +4,28 @@ Copyright © 2025 Luke McMahon <me@lmc.id.au>
 package cmd
 
 import (
-    "os"
-    "os/exec"
-    "strings"
-    "time"
+	"os"
+	"os/exec"
+	"strings"
+	"time"
 
-    "github.com/google/uuid"
-    "github.com/spf13/cobra"
-    "github.com/luke-mcmahon/snip/internal/snippets"
+	"github.com/Luke-McMahon/snip/internal/snippets"
+	"github.com/google/uuid"
+	"github.com/spf13/cobra"
 )
 
 var (
-  content string
-  tags string
-  language string
-  starred bool
-  private bool
+	content  string
+	tags     string
+	language string
+	starred  bool
+	private  bool
 )
 
 var addCmd = &cobra.Command{
 	Use:   "add [title]",
 	Short: "Add a new snippet",
-	Args: cobra.ExactArgs(1),
+	Args:  cobra.ExactArgs(1),
 
 	RunE: func(cmd *cobra.Command, args []string) error {
 		title := args[0]
@@ -79,11 +79,11 @@ var addCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(addCmd)
-    addCmd.Flags().StringVar(&content, "content", "", "Snippet content")
-    addCmd.Flags().StringVar(&tags, "tags", "", "Comma-separated tags")
-    addCmd.Flags().StringVar(&language, "language", "", "Snippet language")
-    addCmd.Flags().BoolVar(&starred, "starred", false, "Mark snippet as starred")
-    addCmd.Flags().BoolVar(&private, "private", false, "Mark snippet as private")
+	addCmd.Flags().StringVar(&content, "content", "", "Snippet content")
+	addCmd.Flags().StringVar(&tags, "tags", "", "Comma-separated tags")
+	addCmd.Flags().StringVar(&language, "language", "", "Snippet language")
+	addCmd.Flags().BoolVar(&starred, "starred", false, "Mark snippet as starred")
+	addCmd.Flags().BoolVar(&private, "private", false, "Mark snippet as private")
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
