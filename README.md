@@ -18,6 +18,14 @@ Store, tag, and retrieve code snippets straight from your terminal — with an o
 
 ## 📦 Installation
 
+### Using Go
+
+```sh
+go install github.com/luke-mcmahon/snip@latest
+```
+
+### From Source
+
 ```sh
 git clone https://github.com/luke-mcmahon/snip.git
 cd snip
