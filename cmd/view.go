@@ -66,7 +66,6 @@ func renderContent(s snippets.Snippet) {
 
 	err := quick.Highlight(os.Stdout, s.Content, s.Language, "terminal16m", "monokai")
 	if err != nil {
-		// Fallback if highlighting fails
 		fmt.Println(s.Content)
 	} else {
 		fmt.Println()
