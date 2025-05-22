@@ -32,24 +32,20 @@ type GistFileResponse struct {
 }
 
 // FetchUserGists fetches all gists for the authenticated user
-// and returns them as a slice of Gists
 func FetchUserGists() ([]GistResponse, error) {
 	token := os.Getenv("GITHUB_TOKEN")
 	if token == "" {
 		return nil, errors.New("GitHub token not found. Set the GITHUB_TOKEN environment variable")
 	}
 
-	// Create the HTTP request
 	req, err := http.NewRequest("GET", githubAPIURL, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
 
-	// Set headers
 	req.Header.Set("Accept", "application/vnd.github+json")
 	req.Header.Set("Authorization", "Bearer "+token)
 
-	// Make the request
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -57,23 +53,68 @@ func FetchUserGists() ([]GistResponse, error) {
 	}
 	defer resp.Body.Close()
 
-	// Check response status
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		return nil, fmt.Errorf("GitHub API returned status code %d", resp.StatusCode)
 	}
 
-	// Read and parse the response
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, fmt.Errorf("error reading response: %w", err)
 	}
 
-	var gists []GistResponse
-	if err := json.Unmarshal(body, &gists); err != nil {
+	var gistSummaries []GistResponse
+	if err := json.Unmarshal(body, &gistSummaries); err != nil {
 		return nil, fmt.Errorf("error parsing JSON: %w", err)
 	}
 
-	return gists, nil
+	var fullGists []GistResponse
+	for _, gistSummary := range gistSummaries {
+		fullGist, err := FetchSingleGist(gistSummary.ID)
+		if err != nil {
+			fmt.Printf("Warning: Could not fetch gist %s: %v\n", gistSummary.ID, err)
+			continue
+		}
+		fullGists = append(fullGists, fullGist)
+	}
+
+	return fullGists, nil
+}
+
+// FetchSingleGist fetches a single gist by its ID to get the complete content
+func FetchSingleGist(gistID string) (GistResponse, error) {
+	token := os.Getenv("GITHUB_TOKEN")
+	singleGistURL := fmt.Sprintf("%s/%s", githubAPIURL, gistID)
+
+	req, err := http.NewRequest("GET", singleGistURL, nil)
+	if err != nil {
+		return GistResponse{}, fmt.Errorf("error creating request: %w", err)
+	}
+
+	req.Header.Set("Accept", "application/vnd.github+json")
+	req.Header.Set("Authorization", "Bearer "+token)
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return GistResponse{}, fmt.Errorf("error making request: %w", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return GistResponse{}, fmt.Errorf("GitHub API returned status code %d", resp.StatusCode)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return GistResponse{}, fmt.Errorf("error reading response: %w", err)
+	}
+
+	var gist GistResponse
+	if err := json.Unmarshal(body, &gist); err != nil {
+		return GistResponse{}, fmt.Errorf("error parsing JSON: %w", err)
+	}
+
+	return gist, nil
 }
 
 // ConvertGistToSnippet converts a GitHub Gist to a local Snippet
@@ -82,26 +123,22 @@ func ConvertGistToSnippet(gist GistResponse) (*snippets.Snippet, error) {
 		return nil, errors.New("gist has no files")
 	}
 
-	// Just take the first file from the gist
 	var file GistFileResponse
 	for _, f := range gist.Files {
 		file = f
 		break
 	}
 
-	// Parse the created time
 	createdAt, err := time.Parse(time.RFC3339, gist.CreatedAt)
 	if err != nil {
 		createdAt = time.Now()
 	}
 
-	// Parse the updated time
 	updatedAt, err := time.Parse(time.RFC3339, gist.UpdatedAt)
 	if err != nil {
 		updatedAt = time.Now()
 	}
 
-	// Create a new snippet
 	snippet := &snippets.Snippet{
 		ID:        uuid.NewString(),
 		Title:     gist.Description,
@@ -118,24 +155,20 @@ func ConvertGistToSnippet(gist GistResponse) (*snippets.Snippet, error) {
 
 // ImportUserGists imports all user gists as local snippets
 func ImportUserGists() error {
-	// Fetch all gists
 	gists, err := FetchUserGists()
 	if err != nil {
 		return err
 	}
 
-	// Load existing snippets
 	allSnippets, err := snippets.LoadSnippets()
 	if err != nil {
 		return err
 	}
 
-	// Convert and add each gist
 	imported := 0
 	for _, gist := range gists {
 		snippet, err := ConvertGistToSnippet(gist)
 		if err != nil {
-			// Skip this gist if there's an error
 			continue
 		}
 
@@ -143,7 +176,6 @@ func ImportUserGists() error {
 		imported++
 	}
 
-	// Save all snippets
 	if err := snippets.SaveAllSnippets(allSnippets); err != nil {
 		return err
 	}

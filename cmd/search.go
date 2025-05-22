@@ -16,7 +16,6 @@ var (
 	languageFilter string
 )
 
-// searchCmd represents the search command
 var searchCmd = &cobra.Command{
 	Use:   "search [query]",
 	Short: "Search snippets by title, content, or tags",

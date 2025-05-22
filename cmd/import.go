@@ -18,7 +18,6 @@ var importCmd = &cobra.Command{
 Requires a GITHUB_TOKEN environment variable set with a valid GitHub personal access token.
 The token needs 'gist' scope permissions to read gists.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		// Check if GitHub token is set
 		if os.Getenv("GITHUB_TOKEN") == "" {
 			return fmt.Errorf("GITHUB_TOKEN environment variable not set. Please set it with a valid GitHub token")
 		}

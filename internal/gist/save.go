@@ -24,38 +24,32 @@ func Save(snippet *snippets.Snippet) error {
 		return errors.New("GitHub token not found. Set the GITHUB_TOKEN environment variable")
 	}
 
-	// Prepare the file content for the gist
 	files := map[string]map[string]string{
 		getFilename(snippet): {
 			"content": snippet.Content,
 		},
 	}
 
-	// Create the request body
 	reqBody := map[string]interface{}{
 		"description": snippet.Title,
 		"public":      !snippet.Private,
 		"files":       files,
 	}
 
-	// Convert to JSON
 	jsonData, err := json.Marshal(reqBody)
 	if err != nil {
 		return fmt.Errorf("error marshaling JSON: %w", err)
 	}
 
-	// Create the HTTP request
 	req, err := http.NewRequest("POST", githubAPIURL, bytes.NewBuffer(jsonData))
 	if err != nil {
 		return fmt.Errorf("error creating request: %w", err)
 	}
 
-	// Set headers
 	req.Header.Set("Accept", "application/vnd.github+json")
 	req.Header.Set("Authorization", "Bearer "+token)
 	req.Header.Set("Content-Type", "application/json")
 
-	// Make the request
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -63,7 +57,6 @@ func Save(snippet *snippets.Snippet) error {
 	}
 	defer resp.Body.Close()
 
-	// Check response status
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		return fmt.Errorf("GitHub API returned status code %d", resp.StatusCode)
 	}
@@ -88,9 +81,7 @@ func Save(snippet *snippets.Snippet) error {
 func getFilename(snippet *snippets.Snippet) string {
 	filename := snippet.Title
 
-	// Add extension based on language if available
 	if snippet.Language != "" {
-		// Clean up language name and map to file extension
 		lang := strings.ToLower(snippet.Language)
 		switch lang {
 		case "javascript", "js":
@@ -116,11 +107,9 @@ func getFilename(snippet *snippets.Snippet) string {
 		case "shell", "bash", "sh":
 			filename += ".sh"
 		default:
-			// Use language as extension if none of the above
 			filename += "." + lang
 		}
 	} else {
-		// Default to .txt if no language specified
 		filename += ".txt"
 	}
 

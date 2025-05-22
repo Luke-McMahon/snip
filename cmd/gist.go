@@ -21,7 +21,6 @@ Requires a GITHUB_TOKEN environment variable set with a valid GitHub personal ac
 The token needs 'gist' scope permissions to create gists.`,
 	Args: cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		// Check if GitHub token is set
 		if os.Getenv("GITHUB_TOKEN") == "" {
 			return fmt.Errorf("GITHUB_TOKEN environment variable not set. Please set it with a valid GitHub token")
 		}
