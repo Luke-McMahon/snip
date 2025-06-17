@@ -7,13 +7,19 @@ Store, tag, and retrieve code snippets straight from your terminal — with an o
 
 ## 🚀 Features
 
-- Add code snippets with title, tags, language, and metadata
-- Open your `$EDITOR` to write snippets interactively
-- Syntax-highlight snippets automatically (using Chroma)
-- List, search, and view saved snippets
-- Local JSON-based storage (no cloud or sync by default)
-- Export snippets to GitHub Gists (requires GitHub token)
-- Designed to be easily extended with a TUI (via [Bubble Tea](https://github.com/charmbracelet/bubbletea))
+- **Add & Edit** - Create snippets with title, tags, language, and metadata
+- **Smart Language Detection** - Auto-detect programming language from content
+- **Interactive Editing** - Open your `$EDITOR` to write snippets interactively
+- **Syntax Highlighting** - View snippets with automatic syntax highlighting (using Chroma)
+- **Search & Filter** - List, search, and view saved snippets with filtering options
+- **Star & Organize** - Mark favorite snippets and organize with tags
+- **Statistics** - View usage stats including top tags and languages
+- **Templates** - Create snippets from built-in templates (Go, Python, JS, etc.)
+- **Copy to Clipboard** - Quickly copy snippet content to system clipboard
+- **Backup & Restore** - Export/import snippets in JSON or YAML format
+- **GitHub Integration** - Import from and export to GitHub Gists
+- **Local Storage** - JSON-based storage with no cloud dependencies
+- **Cross-Platform** - Works on macOS, Linux, and Windows
 
 ---
 
@@ -45,6 +51,9 @@ go build -o snip
 snip add "Reverse a string in Go" \
   --tags go,string,utility \
   --language go
+
+# Language detection is automatic if not specified!
+snip add "Quick Python Script" --tags python,utility
 
 # You'll be prompted to enter the snippet content in your default editor (e.g. nano, vim)
 # Example content:
@@ -152,6 +161,64 @@ Opens the snippet content in your `$EDITOR` for quick updates.
 
 ---
 
+### Star/Unstar snippets
+
+```sh
+snip star <id>      # Mark as favorite
+snip unstar <id>    # Remove from favorites
+```
+
+### Filter lists
+
+```sh
+snip list --starred  # Show only starred snippets
+snip list --private  # Show only private snippets
+```
+
+### Copy to clipboard
+
+```sh
+snip copy <id>  # Copy snippet content to clipboard
+```
+
+### Delete snippets
+
+```sh
+snip delete <id>  # Remove a snippet
+```
+
+### View statistics
+
+```sh
+snip stats  # Show snippet statistics, top tags, languages
+```
+
+### Templates
+
+```sh
+snip insert --list                    # List available templates
+snip insert go-func "My Function"     # Create from Go function template
+snip insert py-class "User Class"     # Create from Python class template
+```
+
+Available templates: `go-func`, `go-struct`, `py-func`, `py-class`, `js-func`, `js-arrow`, `bash-script`, `dockerfile`
+
+### Backup & Restore
+
+```sh
+# Export all snippets
+snip export                           # Export to JSON (default)
+snip export --format yaml            # Export to YAML
+snip export --output my-backup.json  # Custom filename
+
+# Import snippets
+snip import backup.json               # Import from JSON
+snip import backup.yaml               # Import from YAML
+snip import --merge=false backup.json  # Replace instead of merge
+```
+
+---
+
 Each snippet includes:
 
 - ID – unique identifier
@@ -198,15 +265,21 @@ Imported snippets will automatically be tagged with `github`, `gist`, and `impor
 
 ## 🔭 Future Work
 
-- `delete [id]` — remove a snippet
-- `star` / `unstar` — mark favorite snippets
-- `export` / `import` — backup and restore, possibly with JSON/YAML
-- ✅ GitHub Gist sync or cloud export (optional, opt-in)
-- `snip stats` — see top tags/languages used
-- Templated snippet creation (`snip insert <template>`)
+- ✅ `delete [id]` — remove a snippet *(implemented)*
+- ✅ `star` / `unstar` — mark favorite snippets *(implemented)*
+- ✅ `export` / `import` — backup and restore with JSON/YAML *(implemented)*
+- ✅ `snip stats` — see top tags/languages used *(implemented)*
+- ✅ Templated snippet creation (`snip insert <template>`) *(implemented)*
+- ✅ Auto language detection (fallback when `--language` is missing) *(implemented)*
+- ✅ Copy to clipboard functionality *(implemented)*
+- ✅ GitHub Gist sync or cloud export *(implemented)*
+
+**Remaining Future Work:**
 - Interactive TUI mode with:
   - Search + filter by tag/language
   - Preview + view + copy to clipboard
   - Batch operations (delete, export)
-- Auto language detection (fallback when `--language` is missing)
 - Plugin/hooks system for custom snippet actions
+- Fuzzy search improvements
+- Snippet sharing via URLs
+- Version control integration

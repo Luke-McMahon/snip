@@ -43,7 +43,9 @@ var editCmd = &cobra.Command{
 		}
 		defer os.Remove(tmpFile.Name())
 
-		tmpFile.WriteString(snip.Content)
+		if _, err := tmpFile.WriteString(snip.Content); err != nil {
+			return fmt.Errorf("failed to write to temp file: %w", err)
+		}
 		tmpFile.Close()
 
 		editor := os.Getenv("EDITOR")

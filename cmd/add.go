@@ -67,6 +67,11 @@ var addCmd = &cobra.Command{
 			snippetContent = strings.TrimRight(snippetContent, "\r\n")
 		}
 
+		// Auto-detect language if not provided
+		if language == "" {
+			language = snippets.DetectLanguage(snippetContent)
+		}
+
 		snippet := snippets.Snippet{
 			ID:        uuid.NewString(),
 			Title:     title,

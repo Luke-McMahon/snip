@@ -11,6 +11,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	listStarred bool
+	listPrivate bool
+)
+
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all saved snippets",
@@ -20,18 +25,45 @@ var listCmd = &cobra.Command{
 			return err
 		}
 
-		if len(all) == 0 {
-			fmt.Println("No snippets saved yet.")
+		// Filter snippets based on flags
+		var filtered []snippets.Snippet
+		for _, snip := range all {
+			if listStarred && !snip.Starred {
+				continue
+			}
+			if listPrivate && !snip.Private {
+				continue
+			}
+			filtered = append(filtered, snip)
+		}
+
+		if len(filtered) == 0 {
+			if listStarred {
+				fmt.Println("No starred snippets found.")
+			} else if listPrivate {
+				fmt.Println("No private snippets found.")
+			} else {
+				fmt.Println("No snippets saved yet.")
+			}
 			return nil
 		}
 
-		for _, snip := range all {
+		for _, snip := range filtered {
 			tagStr := ""
 			if len(snip.Tags) > 0 {
 				tagStr = "[" + strings.Join(snip.Tags, ", ") + "]"
 			}
 
-			fmt.Printf("- %s %s\n\tID: %s\n\n", snip.Title, tagStr, snip.ID)
+			starIcon := ""
+			if snip.Starred {
+				starIcon = "⭐ "
+			}
+			privateIcon := ""
+			if snip.Private {
+				privateIcon = "🔐 "
+			}
+
+			fmt.Printf("- %s%s%s %s\n\tID: %s\n\n", starIcon, privateIcon, snip.Title, tagStr, snip.ID)
 		}
 		return nil
 	},
@@ -39,4 +71,6 @@ var listCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(listCmd)
+	listCmd.Flags().BoolVar(&listStarred, "starred", false, "Show only starred snippets")
+	listCmd.Flags().BoolVar(&listPrivate, "private", false, "Show only private snippets")
 }

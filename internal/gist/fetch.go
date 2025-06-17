@@ -169,6 +169,7 @@ func ImportUserGists() error {
 	for _, gist := range gists {
 		snippet, err := ConvertGistToSnippet(gist)
 		if err != nil {
+			fmt.Printf("Warning: Could not convert gist %s: %v\n", gist.ID, err)
 			continue
 		}
 

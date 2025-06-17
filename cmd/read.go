@@ -12,7 +12,8 @@ import (
 
 var readCmd = &cobra.Command{
 	Use:   "read",
-	Short: "Read a snipper by ID",
+	Short: "Read a snippet by ID",
+	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		id := args[0]
 
@@ -30,19 +31,8 @@ var readCmd = &cobra.Command{
 		}
 		fmt.Printf("⭐  Starred: %v\n🔐  Private: %v\n", snip.Starred, snip.Private)
 		fmt.Printf("📅  Created: %s\n", snip.CreatedAt.Format("2006-01-02 15:04"))
-		fmt.Printf("📎  %s\n", snip.Title)
-		if len(snip.Tags) > 0 {
-			fmt.Printf("🏷️  Tags: %v\n", snip.Tags)
-		}
-		if snip.Language != "" {
-			fmt.Printf("🧠  Language: %s\n", snip.Language)
-		}
-		fmt.Printf("⭐  Starred: %v\n🔐  Private: %v\n", snip.Starred, snip.Private)
-		fmt.Printf("📅  Created: %s\n", snip.CreatedAt.Format("2006-01-02 15:04"))
 
-		fmt.Println("\n📝 Snippet:\n")
-		fmt.Println(snip.Content)
-		fmt.Println("\n📝 Snippet:\n")
+		fmt.Println("\n📝 Snippet:")
 		fmt.Println(snip.Content)
 
 		return nil
